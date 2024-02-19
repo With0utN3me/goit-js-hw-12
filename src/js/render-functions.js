@@ -1,4 +1,5 @@
-import {loader, gallery, imageList, searchInput} from "/main.js"
+export default renderImages;
+import {loader, gallery, imageList, searchInput, loadMoreBtn} from "/main.js"
 function renderImages(images) {
     const markup = images.hits
     .map((image) => {
@@ -29,9 +30,10 @@ function renderImages(images) {
         `
     })
     .join("");
+    console.log("Amogus");
     loader.classList.add("hidden");
     imageList.insertAdjacentHTML("beforeend", markup);
     gallery.refresh()
     searchInput.value = "";
+    loadMoreBtn.classList.remove("hidden");
 }
-export default renderImages;

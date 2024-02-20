@@ -78,11 +78,13 @@ searchForm.addEventListener("submit", (event) => {
             renderImages(images)
             searchParams = addSearchParams();
             totalPages = Math.floor(totalImages / perPage);
+            if(totalPages > 1){
+                loadMoreBtn.classList.remove("hidden");
+            }
             galleryCard = document.querySelector(".list-item");
             cardInfo = galleryCard.getBoundingClientRect();
         }
         else {
-            loadMoreBtn.classList.add("hidden");
             loader.classList.add("hidden");
             imageList.innerHTML = "";
             searchInput.value = "";
@@ -99,6 +101,7 @@ searchForm.addEventListener("submit", (event) => {
 //* Пошук додаткових зображень
 loadMoreBtn.addEventListener("click", () => {
     if (page == totalPages){
+        loader.classList.remove("hidden");
         fetchImages()
         .then((images) => {
             renderImages(images)
@@ -117,6 +120,7 @@ loadMoreBtn.addEventListener("click", () => {
         .catch((error) => console.log(error));
     }
     else {
+        loader.classList.remove("hidden");
         fetchImages()
         .then((images) => {
             renderImages(images)

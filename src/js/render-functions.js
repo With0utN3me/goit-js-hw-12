@@ -34,5 +34,4 @@ function renderImages(images) {
     imageList.insertAdjacentHTML("beforeend", markup);
     gallery.refresh()
     searchInput.value = "";
-    loadMoreBtn.classList.remove("hidden");
 }

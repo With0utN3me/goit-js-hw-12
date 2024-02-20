@@ -169,3 +169,6 @@ a {
     letter-spacing: 0.04em;
     color: #FFFFFF;
 }
+.load-more-btn:hover{
+    background-color: #6C8CFF;
+}

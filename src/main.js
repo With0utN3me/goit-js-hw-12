@@ -98,16 +98,27 @@ searchForm.addEventListener("submit", (event) => {
 
 //* Пошук додаткових зображень
 loadMoreBtn.addEventListener("click", () => {
-if (page > totalPages){
-    loadMoreBtn.classList.add("hidden");
-    return iziToast.error({
-        position: "topRight",
-        message: "We're sorry, but you've reached the end of search results."
-    });
-}
-else {
-    fetchImages()
-    .then((images) => {
+    if (page == totalPages){
+        fetchImages()
+        .then((images) => {
+            renderImages(images)
+            searchParams = addSearchParams();
+            window.scrollBy({
+                top: Math.floor(cardInfo.height * 2),
+                behavior: "smooth",
+            })
+            loadMoreBtn.classList.add("hidden");
+            return iziToast.info({
+                position: "topRight",
+                message: "We're sorry, but you've reached the end of search results."
+                
+            });
+        })
+        .catch((error) => console.log(error));
+    }
+    else {
+        fetchImages()
+        .then((images) => {
             renderImages(images)
             searchParams = addSearchParams();
             window.scrollBy({
@@ -115,6 +126,7 @@ else {
                 behavior: "smooth",
             })
         })
-    .catch((error) => console.log(error));}
+        .catch((error) => console.log(error));
+    }
 })
 

@@ -1,5 +1,5 @@
 export default renderImages;
-import {loader, gallery, imageList, searchInput, loadMoreBtn} from "/main.js"
+import {loader, gallery, imageList, searchInput} from "/main.js"
 function renderImages(images) {
     const markup = images.hits
     .map((image) => {

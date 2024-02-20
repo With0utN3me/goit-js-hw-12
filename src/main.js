@@ -1,4 +1,4 @@
-export {axios, searchParams, baseURL, loader, gallery, imageList, searchInput, loadMoreBtn};
+export {axios, searchParams, baseURL, loader, gallery, imageList, searchInput};
 // Описаний у документації
 import SimpleLightbox from "simplelightbox";
 // Додатковий імпорт стилів

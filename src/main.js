@@ -24,7 +24,13 @@ const loadMoreBtn = document.querySelector(".load-more-btn");
 const baseURL = `https://pixabay.com/api/?`;
 let searchParams = {}
 let page = 0;
+let perPage = 15;
+let totalImages;
+let totalPages;
 let searchWord;
+
+let galleryCard;
+let cardInfo;
 //* Оновлення параметрів запиту
 function addSearchParams() {
     page += 1;
@@ -32,7 +38,7 @@ function addSearchParams() {
         key: `42308406-6cac9d7b9797eefd79d1793c9`,
         q: encodeURIComponent(searchWord),
         page: page,
-        per_page: 15,
+        per_page: perPage,
         image_type: "photo",
         orientation: "horizontal",
         safesearch: true,
@@ -58,20 +64,25 @@ searchForm.addEventListener("submit", (event) => {
         });
     }
     else{
+        page = 0;
         searchWord = searchInput.value.trim();
         loader.classList.remove("hidden");
         searchParams = addSearchParams();
     };
     //*Пошук запиту
-    searchParams = addSearchParams();
     fetchImages()
     .then((images) => {
         if(Object.keys(images.hits).length !== 0){
             imageList.innerHTML = "";
+            totalImages = images.totalHits;
             renderImages(images)
-
+            searchParams = addSearchParams();
+            totalPages = Math.floor(totalImages / perPage);
+            galleryCard = document.querySelector(".list-item");
+            cardInfo = galleryCard.getBoundingClientRect();
         }
         else {
+            loadMoreBtn.classList.add("hidden");
             loader.classList.add("hidden");
             imageList.innerHTML = "";
             searchInput.value = "";
@@ -87,11 +98,23 @@ searchForm.addEventListener("submit", (event) => {
 
 //* Пошук додаткових зображень
 loadMoreBtn.addEventListener("click", () => {
-    searchParams = addSearchParams();
+if (page > totalPages){
+    loadMoreBtn.classList.add("hidden");
+    return iziToast.error({
+        position: "topRight",
+        message: "We're sorry, but you've reached the end of search results."
+    });
+}
+else {
     fetchImages()
     .then((images) => {
             renderImages(images)
+            searchParams = addSearchParams();
+            window.scrollBy({
+                top: Math.floor(cardInfo.height * 2),
+                behavior: "smooth",
+            })
         })
-    .catch((error) => console.log(error));
+    .catch((error) => console.log(error));}
 })
 

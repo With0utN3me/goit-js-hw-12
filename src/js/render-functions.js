@@ -30,7 +30,6 @@ function renderImages(images) {
         `
     })
     .join("");
-    console.log("Amogus");
     loader.classList.add("hidden");
     imageList.insertAdjacentHTML("beforeend", markup);
     gallery.refresh()

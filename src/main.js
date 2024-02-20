@@ -56,6 +56,7 @@ let gallery = new SimpleLightbox(`.image-list a`,
 //* Виконання пошуку запиту та рендер
 searchForm.addEventListener("submit", (event) => {
     event.preventDefault()
+    loadMoreBtn.classList.add("hidden");
     //*Перевірка на пустий результат
     if(searchInput.value.trim() === ""){
         return iziToast.error({

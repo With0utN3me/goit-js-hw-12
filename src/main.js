@@ -95,43 +95,41 @@ searchForm.addEventListener("submit", (event) => {
             });
         }
         })
-    .catch((error) => console.log(error));
+        .catch((error) => {
+            return iziToast.error({
+                message: error.message,
+                position: `topRight`,
+            });
+        });
 })
 
 
 //* Пошук додаткових зображень
 loadMoreBtn.addEventListener("click", () => {
-    if (page == totalPages){
         loader.classList.remove("hidden");
         fetchImages()
         .then((images) => {
+            if (page == totalPages){
+                loadMoreBtn.classList.add("hidden");
+                iziToast.info({
+                    position: "topRight",
+                    message: "We're sorry, but you've reached the end of search results."
+                    
+                });
+            }
             renderImages(images)
             searchParams = addSearchParams();
             window.scrollBy({
                 top: Math.floor(cardInfo.height * 2),
                 behavior: "smooth",
             })
-            loadMoreBtn.classList.add("hidden");
-            return iziToast.info({
-                position: "topRight",
-                message: "We're sorry, but you've reached the end of search results."
-                
-            });
-        })
-        .catch((error) => console.log(error));
-    }
-    else {
-        loader.classList.remove("hidden");
-        fetchImages()
-        .then((images) => {
-            renderImages(images)
-            searchParams = addSearchParams();
-            window.scrollBy({
-                top: Math.floor(cardInfo.height * 2),
-                behavior: "smooth",
-            })
-        })
-        .catch((error) => console.log(error));
-    }
-})
+    })
+    .catch((error) => {
+        loader.classList.add("hidden");
+        return iziToast.error({
+            message: error.message,
+            position: `topRight`,
+        });
+    });
+});
 

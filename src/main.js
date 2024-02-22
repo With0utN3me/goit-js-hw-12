@@ -78,7 +78,7 @@ searchForm.addEventListener("submit", (event) => {
             totalImages = images.totalHits;
             renderImages(images)
             searchParams = addSearchParams();
-            totalPages = Math.floor(totalImages / perPage);
+            totalPages = Math.ceil(totalImages / perPage);
             if(totalPages > 1){
                 loadMoreBtn.classList.remove("hidden");
             }
@@ -109,7 +109,7 @@ loadMoreBtn.addEventListener("click", () => {
         loader.classList.remove("hidden");
         fetchImages()
         .then((images) => {
-            if (page == totalPages){
+            if (page >= totalPages){
                 loadMoreBtn.classList.add("hidden");
                 iziToast.info({
                     position: "topRight",
